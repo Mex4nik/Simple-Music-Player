@@ -19,7 +19,6 @@ const VolumeControl = ({
 				)}
 			</div>
 			<input
-				className={scss.volume__slider}
 				type="range"
 				min={0}
 				max={100}

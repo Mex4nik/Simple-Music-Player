@@ -3,7 +3,14 @@ import scss from "./Player.module.scss";
 import ProgressBar from "./progress-bar/ProgressBar";
 import VolumeControl from "./volume-control/VolumeControl";
 
-const Player = ({ track, songChangeTrigger, prevSongChangeHandle, nextSongChangeHandle }) => {
+const Player = ({
+	track,
+	songChangeTrigger,
+	prevSongChangeHandle,
+	nextSongChangeHandle,
+}) => {
+	const [isFirstSong, setIsFirstSong] = useState(true);
+
 	const [song, setSong] = useState("");
 	const [isSongPlaying, setIsSongPlaying] = useState(false);
 
@@ -12,9 +19,8 @@ const Player = ({ track, songChangeTrigger, prevSongChangeHandle, nextSongChange
 	const [timeDuration, setTimeDuration] = useState(0);
 	const playAnimationRef = useRef();
 
-	const [volume, setVolume] = useState(50);
+	const [volume, setVolume] = useState(20);
 	const [isMuteVolume, setIsMuteVolume] = useState(false);
-	const [isCurrentSongEnded, setIsCurrentSongEnded] = useState(false);
 
 	useEffect(() => {
 		const trackSong = new Audio(track.audio);
@@ -58,7 +64,7 @@ const Player = ({ track, songChangeTrigger, prevSongChangeHandle, nextSongChange
 
 	useEffect(() => {
 		if (song) {
-			song.volume = volume / 100;
+			song.volume = +volume / 100;
 			song.muted = isMuteVolume;
 		}
 	}, [volume, song, isMuteVolume]);
@@ -68,48 +74,62 @@ const Player = ({ track, songChangeTrigger, prevSongChangeHandle, nextSongChange
 	};
 
 	useEffect(() => {
-    if (song) {
-      song.pause();
-      setIsSongPlaying(false);  
-    }
+		if (song) {
+			song.pause();
+			setIsSongPlaying(false);
+		}
 	}, [songChangeTrigger]);
 
 	return (
-		<section className={scss.wrapper}>
-			<div className={scss.wrapper__cover}>
-				<img src={track.cover} alt={track.name} />
-			</div>
-			<div className={scss.wrapper__description}>
-				<span className={scss.wrapper__description__title}>{track.name}</span>
-				<span className={scss.wrapper__description__artist}>
-					{track.artist}
-				</span>
-			</div>
-			<ProgressBar
-				progressBarRef={progressBarRef}
-				audio={song}
-				timeProgress={timeProgress}
-				timeDuration={timeDuration}
-			/>
-			<div className={scss.wrapper__controls}>
-				<img src="/icons/play-previous.png" alt="Left arrow button" onClick={prevSongChangeHandle} />
-				{isSongPlaying ? (
-					<img src="/icons/pause.png" alt="Pause button" onClick={pauseSong} />
-				) : (
+		<section className={scss.player}>
+			<div className={scss.player__wrapper}>
+				<div className={scss.player__wrapper__cover}>
+					<img src={track.cover} alt={track.name} />
+				</div>
+				<div className={scss.player__wrapper__description}>
+					<span className={scss.player__wrapper__description__title}>{track.name}</span>
+					<span className={scss.player__wrapper__description__artist}>
+						{track.artist}
+					</span>
+				</div>
+				<ProgressBar
+					progressBarRef={progressBarRef}
+					audio={song}
+					timeProgress={timeProgress}
+					timeDuration={timeDuration}
+				/>
+				<div className={scss.player__wrapper__controls}>
 					<img
-						src="/icons/play-button.png"
-						alt="Play button"
-						onClick={playSong}
+						src="/icons/play-previous.png"
+						alt="Left arrow button"
+						onClick={prevSongChangeHandle}
 					/>
-				)}
-				<img src="/icons/play-next.png" alt="Right arrow button" onClick={nextSongChangeHandle} />
+					{isSongPlaying ? (
+						<img
+							src="/icons/pause.png"
+							alt="Pause button"
+							onClick={pauseSong}
+						/>
+					) : (
+						<img
+							src="/icons/play-button.png"
+							alt="Play button"
+							onClick={playSong}
+						/>
+					)}
+					<img
+						src="/icons/play-next.png"
+						alt="Right arrow button"
+						onClick={nextSongChangeHandle}
+					/>
+				</div>
+				<VolumeControl
+					currectVolume={volume}
+					onVolumeChange={onVolumeChange}
+					isMuteVolume={isMuteVolume}
+					handleMuteVolume={handleMuteVolume}
+				/>
 			</div>
-			<VolumeControl
-				currectVolume={volume}
-				onVolumeChange={onVolumeChange}
-				isMuteVolume={isMuteVolume}
-				handleMuteVolume={handleMuteVolume}
-			/>
 		</section>
 	);
 };

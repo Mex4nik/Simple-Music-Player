@@ -6,7 +6,7 @@
   cursor: pointer;
 
 	&__active {
-		background-color: rgba(0, 179, 255, 0.307);
+		background-color: rgb(0 179 255 / 43%);
 	}
 
 	&__cover {
@@ -27,13 +27,13 @@
 
 		&__title {
 			font-weight: 500;
-			color: #575757;
+			color: black;
 		}
 
 		&__artist {
 			font-weight: 500;
 			font-size: 0.9rem;
-			color: #575757;
+			color: black;
 		}
 	}
 }
