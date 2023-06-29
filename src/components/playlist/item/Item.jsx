@@ -2,8 +2,6 @@ import React from "react";
 import scss from "./Item.module.scss";
 
 const Item = ({ track }) => {
-	console.log(track);
-
 	return (
 		<div className={`${scss.wrapper} ${track.active ? `${scss.wrapper__active}` : ''}`}>
 			<div className={scss.wrapper__cover}>

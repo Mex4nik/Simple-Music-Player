@@ -1,3 +1,51 @@
 .wrapper {
   flex: .8;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+
+	&__cover {
+		display: flex;
+		align-items: center;
+
+		max-width: 400px;
+
+		img {
+			width: 100%;
+		}
+	}
+
+  &__description {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+    align-items: center;
+    gap: .5rem;
+
+		&__title {
+			font-weight: 500;
+      font-size: 1.3rem;
+			color: #575757;
+		}
+
+		&__artist {
+			font-weight: 500;
+			font-size: 1rem;
+			color: #575757;
+		}
+	}
+
+  &__controls {
+    display: flex;
+    gap: 10rem;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 52px;
+    }
+  }
 }

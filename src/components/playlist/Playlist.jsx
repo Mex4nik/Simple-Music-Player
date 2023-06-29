@@ -1,15 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import scss from "./Playlist.module.scss";
 import Item from "./item/Item";
-import chillHop from "../../api/chillHop";
 
-const Playlist = () => {
-  const [playlist, setPlaylist] = useState([]);
-
-  useEffect(() => {
-    setPlaylist(chillHop())
-  }, [])
-  
+const Playlist = ({playlist}) => {  
 	return (
 		<section className={scss.wrapper}>
 			<h1 className={scss.wrapper__title}>My Playlist</h1>
