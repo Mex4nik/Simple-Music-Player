@@ -9,8 +9,6 @@ const Player = ({
 	prevSongChangeHandle,
 	nextSongChangeHandle,
 }) => {
-	const [isFirstSong, setIsFirstSong] = useState(true);
-
 	const [song, setSong] = useState("");
 	const [isSongPlaying, setIsSongPlaying] = useState(false);
 
@@ -31,6 +29,16 @@ const Player = ({
 			progressBarRef.current.max = metadata.target.duration;
 		};
 	}, [track]);
+
+	// Logic for autoplay
+	// useEffect(() => {
+	//   if (!firstSong.id) {
+	//     setFirstSong(track);
+	//     setIsFirstSong(false);
+	//   } else if (firstSong.id !== track.id && !isFirstSong) {
+	//     playSong();
+	//   }
+	// }, [song])
 
 	const repeat = useCallback(() => {
 		const currentTime = song.currentTime;
@@ -87,7 +95,9 @@ const Player = ({
 					<img src={track.cover} alt={track.name} />
 				</div>
 				<div className={scss.player__wrapper__description}>
-					<span className={scss.player__wrapper__description__title}>{track.name}</span>
+					<span className={scss.player__wrapper__description__title}>
+						{track.name}
+					</span>
 					<span className={scss.player__wrapper__description__artist}>
 						{track.artist}
 					</span>
