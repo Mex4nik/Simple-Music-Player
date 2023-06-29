@@ -1,9 +1,9 @@
 import React from "react";
 import scss from "./Item.module.scss";
 
-const Item = ({ track }) => {
+const Item = ({ track, currentSelectedSongId, onSelect }) => {
 	return (
-		<div className={`${scss.wrapper} ${track.active ? `${scss.wrapper__active}` : ''}`}>
+		<div className={`${scss.wrapper} ${track.id === currentSelectedSongId ? `${scss.wrapper__active}` : ''}`} onClick={() => onSelect(track)}>
 			<div className={scss.wrapper__cover}>
 				<img src={track.cover} alt={track.name} />
 			</div>

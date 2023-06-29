@@ -3,13 +3,18 @@ import scss from "./Player.module.scss";
 import ProgressBar from "./progress-bar/ProgressBar";
 import VolumeControl from "./volume-control/VolumeControl";
 
-const Player = ({ track }) => {
+const Player = ({ track, songChangeTrigger, prevSongChangeHandle, nextSongChangeHandle }) => {
 	const [song, setSong] = useState("");
 	const [isSongPlaying, setIsSongPlaying] = useState(false);
+
 	const progressBarRef = useRef();
 	const [timeProgress, setTimeProgress] = useState(0);
 	const [timeDuration, setTimeDuration] = useState(0);
 	const playAnimationRef = useRef();
+
+	const [volume, setVolume] = useState(50);
+	const [isMuteVolume, setIsMuteVolume] = useState(false);
+	const [isCurrentSongEnded, setIsCurrentSongEnded] = useState(false);
 
 	useEffect(() => {
 		const trackSong = new Audio(track.audio);
@@ -47,6 +52,28 @@ const Player = ({ track }) => {
 		setIsSongPlaying(false);
 	};
 
+	const onVolumeChange = (volume) => {
+		setVolume(volume);
+	};
+
+	useEffect(() => {
+		if (song) {
+			song.volume = volume / 100;
+			song.muted = isMuteVolume;
+		}
+	}, [volume, song, isMuteVolume]);
+
+	const handleMuteVolume = () => {
+		setIsMuteVolume(!isMuteVolume);
+	};
+
+	useEffect(() => {
+    if (song) {
+      song.pause();
+      setIsSongPlaying(false);  
+    }
+	}, [songChangeTrigger]);
+
 	return (
 		<section className={scss.wrapper}>
 			<div className={scss.wrapper__cover}>
@@ -65,7 +92,7 @@ const Player = ({ track }) => {
 				timeDuration={timeDuration}
 			/>
 			<div className={scss.wrapper__controls}>
-				<img src="/icons/play-previous.png" alt="Left arrow button" />
+				<img src="/icons/play-previous.png" alt="Left arrow button" onClick={prevSongChangeHandle} />
 				{isSongPlaying ? (
 					<img src="/icons/pause.png" alt="Pause button" onClick={pauseSong} />
 				) : (
@@ -75,9 +102,14 @@ const Player = ({ track }) => {
 						onClick={playSong}
 					/>
 				)}
-				<img src="/icons/play-next.png" alt="Right arrow button" />
+				<img src="/icons/play-next.png" alt="Right arrow button" onClick={nextSongChangeHandle} />
 			</div>
-			<VolumeControl />
+			<VolumeControl
+				currectVolume={volume}
+				onVolumeChange={onVolumeChange}
+				isMuteVolume={isMuteVolume}
+				handleMuteVolume={handleMuteVolume}
+			/>
 		</section>
 	);
 };
