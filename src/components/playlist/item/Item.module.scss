@@ -1,0 +1,39 @@
+.wrapper {
+	display: flex;
+	flex-direction: row;
+	gap: 1rem;
+  padding: 1rem 2rem;
+  cursor: pointer;
+
+	&__active {
+		background-color: rgba(0, 179, 255, 0.307);
+	}
+
+	&__cover {
+		display: flex;
+		align-items: center;
+
+		max-width: 75px;
+
+		img {
+			width: 100%;
+		}
+	}
+
+	&__description {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+
+		&__title {
+			font-weight: 500;
+			color: #575757;
+		}
+
+		&__artist {
+			font-weight: 500;
+			font-size: 0.9rem;
+			color: #575757;
+		}
+	}
+}
